@@ -137,6 +137,24 @@ Resources:
       Runtime: ruby2.7
       Timeout: 120
 
+
+
+
+
+  OptimaBillConnect:
+    Type: AWS::Lambda::Function
+    DependsOn: 
+    - OptimaArnCft
+    Properties:
+      Code:
+        S3Bucket: !Ref 'LambdaZipsBucket'
+        S3Key: !Sub '${QSS3KeyPrefix}optimaOnboarding.zip'
+      Handler: optimaOnboarding.billconnect_handler
+      MemorySize: 128
+      Role: !GetAtt "OptimaOnboardingRole.Arn"
+      Runtime: ruby2.7
+      Timeout: 120
+
   OptimaOnboardingRole:
     Type: AWS::IAM::Role
     Properties:
@@ -178,7 +196,7 @@ Resources:
     DependsOn:
     - OptimaOnboarding
 
-  OptimaBillConnect:
+  OptimaSecondBillConnect:
     Type: AWS::CloudFormation::CustomResource
     Properties:
       ServiceToken:
@@ -192,4 +210,4 @@ Resources:
       RoleARN: !Ref RoleARN
       FlexeraOrgId: !Ref FlexeraOrgId
     DependsOn:
-    - OptimaOnboarding
+    - OptimaBillConnect
