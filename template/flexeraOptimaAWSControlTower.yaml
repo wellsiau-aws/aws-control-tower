@@ -177,3 +177,19 @@ Resources:
       S3Bucket: !Ref S3Bucket
     DependsOn:
     - OptimaOnboarding
+
+  OptimaBillConnect:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - OptimaBillConnect
+        - Arn
+      RefreshToken: !Ref RefreshToken
+      AccountId: !Ref AccountId
+      S3Bucket: !Ref S3Bucket
+      S3Prefix: !Ref S3Prefix
+      RoleARN: !Ref RoleARN
+      FlexeraOrgId: !Ref FlexeraOrgId
+    DependsOn:
+    - OptimaOnboarding
